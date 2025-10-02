@@ -1,11 +1,40 @@
-
-This directory is intended for PlatformIO Test Runner and project tests.
-
-Unit Testing is a software testing method by which individual units of
-source code, sets of one or more MCU program modules together with associated
-control data, usage procedures, and operating procedures, are tested to
-determine whether they are fit for use. Unit testing finds problems early
-in the development cycle.
-
-More information about PlatformIO Unit Testing:
-- https://docs.platformio.org/en/latest/advanced/unit-testing/index.html
+# Dự án điều khiển LED bằng nút nhấn sử dụng thư viện OneButton
+## 1. Giới thiệu
+Dự án này minh họa cách sử dụng **ESP32 (hoặc Arduino)** kết hợp với thư viện **OneButton** để điều khiển LED bằng một nút nhấn duy nhất.
+Thông qua cách bấm khác nhau (single click, double click), ta có thể thực hiện nhiều chức năng điều khiển LED.
+## 2. Yêu cầu phần cứng
+- 01 board ESP32 (hoặc Arduino Uno/Nano/MEGA).
+- 01 LED rời (không dùng LED tích hợp trên board).
+- 01 điện trở 220Ω – 330Ω (hạn dòng cho LED).
+- 01 nút nhấn (button).
+- Dây nối và breadboard.
+### Sơ đồ kết nối (ESP32):
+- LED: Anode → GPIO33, Cathode → GND qua điện trở hạn dòng.
+- Nút nhấn:
+    - Một chân → GPIO32.
+    - Chân còn lại → GND.
+    - Sử dụng chế độ **INPUT_PULLUP** để nút hoạt động ổn định.
+## 3. Yêu cầu phần mềm
+- Visual Studio Code + PlatformIO IDE.
+- Cài đặt thư viện **OneButton** qua PlatformIO (lib_deps).
+### Ví dụ trong file platformio.ini:
+```ini
+[env:esp32dev]
+platform = espressif32
+board = esp32dev
+framework = arduino
+monitor_speed = 115200
+lib_deps = 
+    mathertel/OneButton @ ^2.0.3
+```
+## 4. Chức năng chính
+- **Single Click**: Bật hoặc tắt LED.
+- **Double Click**: Chuyển LED sang chế độ nhấp nháy (tần số 0.5 giây ON/OFF).
+- Nếu LED đang nhấp nháy, bấm double click lần nữa → thoát nhấp nháy (LED tắt).
+## 5. Nguyên lý hoạt động
+- Thư viện **OneButton** hỗ trợ nhận diện nhiều thao tác nút nhấn: single click, double click, long press.
+- Trong dự án này sử dụng:
+    - attachClick() để xử lý sự kiện **single click**.
+    - attachDoubleClick() để xử lý sự kiện **double click**.
+- Biến blinking dùng để quản lý trạng thái LED có đang nhấp nháy hay không.
+- Trong hàm loop(), nếu blinking = true thì LED sẽ đảo trạng thái sau mỗi 500ms bằng cách so sánh giá trị millis().
