@@ -9,9 +9,9 @@ Thông qua cách bấm khác nhau (single click, double click), ta có thể th�
 - 01 nút nhấn (button).
 - Dây nối và breadboard.
 ### Sơ đồ kết nối (ESP32):
-- LED: Anode → GPIO33, Cathode → GND qua điện trở hạn dòng.
+- LED: Anode → GPIO25, Cathode → GND qua điện trở hạn dòng.
 - Nút nhấn:
-    - Một chân → GPIO32.
+    - Một chân → GPIO26.
     - Chân còn lại → GND.
     - Sử dụng chế độ **INPUT_PULLUP** để nút hoạt động ổn định.
 ## 3. Yêu cầu phần mềm
